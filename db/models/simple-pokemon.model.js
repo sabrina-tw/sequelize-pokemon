@@ -32,6 +32,13 @@ SimplePokemon.init(
     // modelName: 'SimplePokemon', // We could set the model name instead of using the Class name
     freezeTableName: true, // We could skip the pluralization for database naming
     tableName: "Simple_Pokemon", // We could lock the name of the database table directly
+    indexes: [
+      {
+        unique: true,
+        fields: ["name"],
+      },
+    ],
+    underscored: true,
   }
 );
 
