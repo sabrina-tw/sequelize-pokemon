@@ -1,5 +1,6 @@
 import sequelizeConnection from "../../utils/db.js"; // Reference to the database connection instance
-import { DataTypes, Model } from "sequelize";
+import sequelize from "sequelize";
+const { DataTypes, Model } = sequelize;
 
 class SimplePokemon extends Model {}
 
