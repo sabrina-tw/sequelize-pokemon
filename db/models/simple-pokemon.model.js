@@ -4,83 +4,86 @@ const { DataTypes, Model } = sequelize;
 
 class SimplePokemon extends Model {}
 
-SimplePokemon.init(
-  {
-    name: {
-      type: DataTypes.STRING,
-    },
-    japaneseName: {
-      type: DataTypes.STRING,
-    },
-    baseHP: {
-      type: DataTypes.INTEGER,
-    },
-    category: {
-      type: DataTypes.STRING,
-    },
-    nameWithJapanese: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        return `${this.name} ${this.japaneseName}`;
+export default async (sequelizeConnection) => {
+  SimplePokemon.init(
+    {
+      name: {
+        type: DataTypes.STRING,
       },
-      set(value) {
-        throw new Error("Do not try to set the `nameWithJapanese` value!");
+      japaneseName: {
+        type: DataTypes.STRING,
+      },
+      baseHP: {
+        type: DataTypes.INTEGER,
+      },
+      category: {
+        type: DataTypes.STRING,
+      },
+      nameWithJapanese: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return `${this.name} ${this.japaneseName}`;
+        },
+        set(value) {
+          throw new Error("Do not try to set the `nameWithJapanese` value!");
+        },
       },
     },
-  },
-  {
-    sequelize: sequelizeConnection, // We need to pass the connection instance
-    // modelName: 'SimplePokemon', // We could set the model name instead of using the Class name
-    freezeTableName: true, // We could skip the pluralization for database naming
-    tableName: "Simple_Pokemon", // We could lock the name of the database table directly
-    indexes: [
-      {
-        unique: true,
-        fields: ["name"],
-      },
-    ],
-    underscored: true,
-  }
-);
+    {
+      sequelize: sequelizeConnection, // We need to pass the connection instance
+      // modelName: 'SimplePokemon', // We could set the model name instead of using the Class name
+      freezeTableName: true, // We could skip the pluralization for database naming
+      tableName: "Simple_Pokemon", // We could lock the name of the database table directly
+      indexes: [
+        {
+          unique: true,
+          fields: ["name"],
+        },
+      ],
+      underscored: true,
+    }
+  );
 
-// Not recommended for production level due to destructive operation, but we will use this to demonstrate.
-// For production level, to consider Migration support (advanced topic)
-const synchronizeModel = async () => await SimplePokemon.sync({ force: true });
-await synchronizeModel();
+  // Not recommended for production level due to destructive operation, but we will use this to demonstrate.
+  // For production level, to consider Migration support (advanced topic)
+  const synchronizeModel = async () =>
+    await SimplePokemon.sync({ force: true });
+  await synchronizeModel();
 
-const createPikachu = async () => {
-  const pikachu = {
-    name: "Pikachu",
-    japaneseName: "ピカチュウ",
-    baseHP: 35,
-    category: "Mouse Pokemon",
+  const createPikachu = async () => {
+    const pikachu = {
+      name: "Pikachu",
+      japaneseName: "ピカチュウ",
+      baseHP: 35,
+      category: "Mouse Pokemon",
+    };
+    const created = await SimplePokemon.create(pikachu);
+
+    console.log("Pikachu was saved to the database!");
+    console.log(created.toJSON()); // The recommended way to log an instance, but do note that this might still log sensitive data stored in database.
+
+    // attempt to create Pikachu again
+    // const pikachu2 = {
+    //   id: 2,
+    //   ...pikachu,
+    // };
+    // const created2 = await SimplePokemon.create(pikachu2);
+    // console.log(created2.toJSON());
   };
-  const created = await SimplePokemon.create(pikachu);
+  await createPikachu();
 
-  console.log("Pikachu was saved to the database!");
-  console.log(created.toJSON()); // The recommended way to log an instance, but do note that this might still log sensitive data stored in database.
+  const findPokemon = async () => {
+    // findAll
+    const foundPokemons = await SimplePokemon.findAll();
+    // console.log(foundPokemons);
+    e;
+    // find with filter
+    const findPokemonByName = await SimplePokemon.findOne({
+      where: { name: "Pikachu" },
+    });
+    console.log(findPokemonByName);
+  };
+  await findPokemon();
 
-  // attempt to create Pikachu again
-  // const pikachu2 = {
-  //   id: 2,
-  //   ...pikachu,
-  // };
-  // const created2 = await SimplePokemon.create(pikachu2);
-  // console.log(created2.toJSON());
+  return SimplePokemon;
 };
-await createPikachu();
-
-const findPokemon = async () => {
-  // findAll
-  const foundPokemons = await SimplePokemon.findAll();
-  // console.log(foundPokemons);
-
-  // find with filter
-  const findPokemonByName = await SimplePokemon.findOne({
-    where: { name: "Pikachu" },
-  });
-  console.log(findPokemonByName);
-};
-await findPokemon();
-
-export default SimplePokemon;
