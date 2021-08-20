@@ -45,10 +45,10 @@ SimplePokemon.init(
 
 // Not recommended for production level due to destructive operation, but we will use this to demonstrate.
 // For production level, to consider Migration support (advanced topic)
-const synchronizeModel = async () => {
-  await SimplePokemon.sync({ force: true });
+const synchronizeModel = async () => await SimplePokemon.sync({ force: true });
+await synchronizeModel();
 
-  // create Pikachu
+const createPikachu = async () => {
   const pikachu = {
     name: "Pikachu",
     japaneseName: "ピカチュウ",
@@ -68,6 +68,19 @@ const synchronizeModel = async () => {
   // const created2 = await SimplePokemon.create(pikachu2);
   // console.log(created2.toJSON());
 };
-await synchronizeModel();
+await createPikachu();
+
+const findPokemon = async () => {
+  // findAll
+  const foundPokemons = await SimplePokemon.findAll();
+  // console.log(foundPokemons);
+
+  // find with filter
+  const findPokemonByName = await SimplePokemon.findOne({
+    where: { name: "Pikachu" },
+  });
+  console.log(findPokemonByName);
+};
+await findPokemon();
 
 export default SimplePokemon;
