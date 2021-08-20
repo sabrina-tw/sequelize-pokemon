@@ -1,4 +1,7 @@
-import { connectDb } from "./utils/db.js";
-import SimplePokemon from "./db/models/simple-pokemon.model.js";
+import app from "./app.js";
 
-await connectDb();
+const PORT = process.env.PORT || 4000;
+
+export const server = app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}...`);
+});
