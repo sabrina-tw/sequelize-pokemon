@@ -1,5 +1,5 @@
 import express from "express";
-import dbConnection from "../utils/db";
+import dbConnection from "../utils/db.js";
 
 import InitSimplePokemon from "../db/models/simple-pokemon.model.js";
 let SimplePokemon;
