@@ -1,5 +1,6 @@
 import sequelizeConnection from "../../utils/db.js"; // Reference to the database connection instance
 import sequelize from "sequelize";
+import bcrypt from "bcryptjs";
 const { DataTypes, Model } = sequelize;
 
 class SimplePokemon extends Model {}
@@ -28,6 +29,13 @@ export default async (sequelizeConnection) => {
           throw new Error("Do not try to set the `nameWithJapanese` value!");
         },
       },
+      password: {
+        type: DataTypes.STRING, // to demonstrate bcrypt hashing
+        // set(value) {
+        //   const hashedPassword = SimplePokemon.hashPassword(value);
+        //   this.setDataValue("password", hashedPassword);
+        // },
+      },
     },
     {
       sequelize: sequelizeConnection, // We need to pass the connection instance
@@ -41,6 +49,28 @@ export default async (sequelizeConnection) => {
         },
       ],
       underscored: true,
+      // instanceMethods: {
+      //   hashPassword(password) {
+      //     return bcrypt.hash(password, 10);
+      //   },
+      //   async validPassword(password) {
+      //     return await bcrypt.compare(password, this.password);
+      //   },
+      // },
+      hooks: {
+        beforeCreate: async (pokemon) => {
+          if (pokemon.password) {
+            const salt = await bcrypt.genSaltSync(10);
+            pokemon.password = bcrypt.hashSync(pokemon.password, salt);
+          }
+        },
+        beforeUpdate: async (pokemon) => {
+          if (pokemon.password) {
+            const salt = await bcrypt.genSaltSync(10);
+            pokemon.password = bcrypt.hashSync(pokemon.password, salt);
+          }
+        },
+      },
     }
   );
 
@@ -56,6 +86,7 @@ export default async (sequelizeConnection) => {
       japaneseName: "ピカチュウ",
       baseHP: 35,
       category: "Mouse Pokemon",
+      password: "password123",
     };
     const created = await SimplePokemon.create(pikachu);
 
@@ -76,14 +107,25 @@ export default async (sequelizeConnection) => {
     // findAll
     const foundPokemons = await SimplePokemon.findAll();
     // console.log(foundPokemons);
-    e;
     // find with filter
     const findPokemonByName = await SimplePokemon.findOne({
       where: { name: "Pikachu" },
     });
-    console.log(findPokemonByName);
+    // console.log(findPokemonByName);
   };
   await findPokemon();
+
+  const updatePasswordOfPikachu = async () => {
+    const findPokemonByName = await SimplePokemon.findOne({
+      where: { name: "Pikachu" },
+    });
+
+    const updatedPokemon = await findPokemonByName.update({
+      password: "newPassword",
+    });
+    console.log("updatedPokemon with new password------", updatedPokemon);
+  };
+  await updatePasswordOfPikachu();
 
   return SimplePokemon;
 };
