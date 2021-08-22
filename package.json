@@ -5,8 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "dotenv node index.js",
-    "start:dev": "dotenv nodemon index.js",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
     "dotenv-cli": "^4.0.0",
     "express": "^4.17.1",
     "pg": "^8.7.1",
