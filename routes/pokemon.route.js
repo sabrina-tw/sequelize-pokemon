@@ -5,7 +5,6 @@ import InitSimplePokemon from "../db/models/simple-pokemon.model.js";
 let SimplePokemon;
 
 const router = express.Router();
-router.use(express.json());
 
 router.get("/", (req, res) => {
   res.status(200).json({ message: "done" });
