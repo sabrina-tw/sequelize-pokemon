@@ -23,7 +23,7 @@ const trainersRouter = require("./routes/trainers.route.js");
 // await initPokemonModel();
 // await initTrainerModel();
 
-// app.use("/pokemon", pokemonRouter());
-app.use("/trainers", trainersRouter());
+// app.use("/pokemon", pokemonRouter);
+app.use("/trainers", trainersRouter);
 
 module.exports = app;
