@@ -1,4 +1,5 @@
-import Sequelize from "sequelize";
+// Note: this is not used anymore. using db/index.js instead.
+const Sequelize = require("sequelize");
 
 const dbDialect = "postgres";
 const dbName = process.env.PG_DB_NAME;
@@ -46,5 +47,5 @@ const connectDb = async () => {
   }
 };
 
-export { connectDb };
-export default sequelize;
+// module.exports = { connectDb };
+module.exports = sequelize;

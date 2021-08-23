@@ -1,23 +1,31 @@
-import sequelize from "sequelize";
-import bcrypt from "bcryptjs";
-const { DataTypes, Model } = sequelize;
+const { DataTypes, Model } = require("sequelize");
+// 1. import bcrypt package
+const bcrypt = require("bcryptjs");
 
-class Trainer extends Model {}
-
-export default async (sequelizeConnection) => {
+module.exports = (sequelize) => {
+  class Trainer extends Model {
+    static associate(models) {
+      // define association here
+    }
+  }
   Trainer.init(
     {
+      // 2a. update username to be unique and non-nullable
       username: {
-        type: DataTypes.STRING,
         unique: true,
+        allowNull: false,
+        type: DataTypes.STRING,
       },
+      // 2b. update password to be unique and non-nullable
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {
-      sequelize: sequelizeConnection, // We need to pass the connection instance
-      underscored: true,
+      sequelize,
+      modelName: "Trainer",
+      // 3. add hooks to convert readable password into bcrypt hash before creation and update
       hooks: {
         beforeCreate: async (trainer) => {
           if (trainer.password) {
@@ -34,11 +42,5 @@ export default async (sequelizeConnection) => {
       },
     }
   );
-
-  // Not recommended for production level due to destructive operation, but we will use this to demonstrate.
-  // For production level, to consider Migration support (advanced topic)
-  const synchronizeModel = async () => await Trainer.sync({ force: true });
-  await synchronizeModel();
-
   return Trainer;
 };

@@ -1,27 +1,29 @@
-import "dotenv/config";
-import express from "express";
+require("dotenv/config");
+const express = require("express");
 const app = express();
 app.use(express.json());
 
-import cookieParser from "cookie-parser";
+const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-import { connectDb } from "./utils/db.js";
-await connectDb();
+// const { connectDb } = require("./utils/db.js");
+// await connectDb();
+const db = require("./db");
+db.sequelize.sync();
 
 app.get("/", async (req, res) => {
   console.log("Path / is hit");
   res.status(200).json({ test: "done" });
 });
 
-import { initPokemonModel } from "./routes/pokemon.route.js";
-import { initTrainerModel } from "./routes/trainers.route.js";
-import pokemonRouter from "./routes/pokemon.route.js";
-import trainersRouter from "./routes/trainers.route.js";
-await initPokemonModel();
-await initTrainerModel();
+// const { initPokemonModel } = require("./routes/pokemon.route.js");
+// const { initTrainerModel } = require("./routes/trainers.route.js");
+// const pokemonRouter = require("./routes/pokemon.route.js");
+const trainersRouter = require("./routes/trainers.route.js");
+// await initPokemonModel();
+// await initTrainerModel();
 
-app.use("/pokemon", pokemonRouter());
+// app.use("/pokemon", pokemonRouter());
 app.use("/trainers", trainersRouter());
 
-export default app;
+module.exports = app;
