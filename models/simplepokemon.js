@@ -14,14 +14,38 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   SimplePokemon.init({
-    name: DataTypes.STRING,
-    japaneseName: DataTypes.STRING,
-    category: DataTypes.STRING,
-    baseHP: DataTypes.INTEGER,
-    nameWithJapanese: DataTypes.VIRTUAL
+    name: {
+      type: DataTypes.STRING,
+    },
+    japaneseName: {
+      type: DataTypes.STRING,
+    },
+    baseHP: {
+      type: DataTypes.INTEGER,
+    },
+    category: {
+      type: DataTypes.STRING,
+    },
+    nameWithJapanese: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `${this.name} ${this.japaneseName}`;
+      },
+      set(value) {
+        throw new Error("Do not try to set the `nameWithJapanese` value!");
+      },
+    }
   }, {
     sequelize,
     modelName: 'SimplePokemon',
+    // tableName: "Simple_Pokemon", // We could lock the name of the database table directly
+    indexes: [
+      {
+        unique: true,
+        fields: ["name"],
+      },
+    ],
+    // underscored: true,
   });
   return SimplePokemon;
 };
