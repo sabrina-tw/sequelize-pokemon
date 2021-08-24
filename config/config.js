@@ -2,7 +2,7 @@ module.exports = {
   development: {
     username: "postgres",
     password: null,
-    database: "devtraining",
+    database: "sequelize_pokemon",
     host: "127.0.0.1",
     dialect: "postgres",
   },

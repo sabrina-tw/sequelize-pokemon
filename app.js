@@ -8,7 +8,7 @@ app.use(cookieParser());
 
 // const { connectDb } = require("./utils/db.js");
 // await connectDb();
-const db = require("./db");
+const db = require("./models");
 db.sequelize.sync();
 
 app.get("/", async (req, res) => {
@@ -18,12 +18,13 @@ app.get("/", async (req, res) => {
 
 // const { initPokemonModel } = require("./routes/pokemon.route.js");
 // const { initTrainerModel } = require("./routes/trainers.route.js");
-// const pokemonRouter = require("./routes/pokemon.route.js");
-const trainersRouter = require("./routes/trainers.route.js");
 // await initPokemonModel();
 // await initTrainerModel();
 
-// app.use("/pokemon", pokemonRouter);
+const pokemonRouter = require("./routes/pokemon.route.js");
+const trainersRouter = require("./routes/trainers.route.js");
+
+app.use("/pokemon", pokemonRouter);
 app.use("/trainers", trainersRouter);
 
 module.exports = app;
