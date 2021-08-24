@@ -1,6 +1,6 @@
 const request = require("supertest");
-const app = require("../app");
-const db = require("../models/index");
+const app = require("../../app");
+const db = require("../../models/index");
 
 // jest.setTimeout(2000);  // default timeout: 5000ms
 
