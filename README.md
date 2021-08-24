@@ -9,3 +9,7 @@ TODO:
 - [ ] run migrations on Heroku
 - [ ] (bonus) testing
 - [ ] (bonus) testing for jwt
+
+### (WIP) Testing
+
+1. Create test database: `NODE_ENV=test npx sequelize db:create`

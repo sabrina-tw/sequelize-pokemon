@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   try {
     const newTrainer = await db.Trainer.create(req.body);
-    res.send(newTrainer);
+    res.status(201).send(newTrainer);
   } catch (err) {
     console.error(err);
     next(err);
