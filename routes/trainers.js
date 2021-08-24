@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
     res.send(newTrainer);
   } catch (err) {
     console.error(err);
-    res.sendStatus(400);
+    next(err);
   }
 });
 
@@ -23,7 +23,7 @@ router.get("/:username", protectRoute, async (req, res, next) => {
     res.send(trainer);
   } catch (err) {
     console.error(err);
-    res.sendStatus(400);
+    next(err);
   }
 });
 
