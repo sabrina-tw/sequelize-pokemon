@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const protectRoute = (req, res, next) => {
   try {
     if (!req.cookies.token) {
