@@ -1,17 +1,26 @@
 const request = require("supertest");
 const app = require("../app");
+const db = require("../models/index");
 
 describe("Trainers", () => {
+  beforeAll(async () => {
+    await db.sequelize.sync({ force: true });
+  });
+
+  afterAll(async () => {
+    await db.sequelize.close();
+  });
+
   describe("POST /trainers", () => {
-    // TODO: need to clear testing database before re-running tests
-    it.skip("should create new trainer given valid credentials", async () => {
+    it("should create new trainer given valid credentials", async () => {
       const newTrainer = { username: "username", password: "password" };
-      const response = await request(app)
+      const { body } = await request(app)
         .post("/trainers")
         .send(newTrainer)
         .expect(201);
 
-      expect(response.body).toEqual(newTrainer);
+      expect(body.username).toEqual(newTrainer.username);
+      expect(body.password).not.toEqual(newTrainer.password);
     });
   });
 });
