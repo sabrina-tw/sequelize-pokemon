@@ -1,7 +1,9 @@
 require("dotenv").config();
-const express = require("express");
 const cookieParser = require("cookie-parser");
+const express = require("express");
+
 const db = require("./models/index");
+
 const pokemonRouter = require("./routes/pokemon.route.js");
 const trainersRouter = require("./routes/trainers.js");
 

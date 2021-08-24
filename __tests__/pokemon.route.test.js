@@ -1,82 +1,60 @@
-// const express = require("express");
-// const request = require("supertest");
+const request = require("supertest");
+const app = require("../app");
+const db = require("../models/index");
 
-// // const { jest } = require("@jest/globals"); // ES6 support
+// jest.setTimeout(2000);  // default timeout: 5000ms
 
-// const pokemonRouter, { mockPokemonModel } = require("../routes/pokemon.route.js");
+const pokemon1 = {
+  id: 1,
+  name: "Pikachu",
+  japaneseName: "ピカチュウ",
+  baseHP: 35,
+  category: "Mouse Pokemon",
+};
 
-// jest.setTimeout(3000);
-// // jest.useFakeTimers();
+describe.only("/pokemon", () => {
+  beforeEach(async () => {
+    await db.SimplePokemon.sync({ force: true });
+  });
 
-// // https://medium.com/@kvr2277/sequelize-mocking-with-jest-and-node-933c1f439579
-// // import SequelizeMock from 'sequelize-mock-v5';
-// // const mockDb = new SequelizeMock();
+  afterAll(async () => {
+    await db.sequelize.close();
+  });
 
-// const myMockFn = jest.fn;
+  describe("GET dummy /pokemon", () => {
+    it("should return 200 with done message", async () => {
+      const response = await request(app).get("/pokemon");
 
-// const pokemon1 = {
-//   id: 1,
-//   name: "Pikachu",
-//   japaneseName: "ピカチュウ",
-//   baseHP: 35,
-//   category: "Mouse Pokemon",
-// };
+      expect(response.status).toEqual(200);
+      expect(response.body.message).toEqual("done");
+    });
+  });
 
-// jest.mock("../db/models/simple-pokemon.model.js");
+  // describe("GET /all", () => {
+  //   it("should return all pokemons", async () => {
+  //     const response = await request(app).get("/all").expect(200);
 
-// const app = express();
-// app.use("/", pokemonRouter());
-// // app.use("/", pokemonRouter(mockDb));
+  //     const { body } = response;
+  //     expect(body.length).toEqual(1);
+  //     expect(body[0]).toMatchObject(pokemon1);
+  //   });
+  // });
 
-// describe("/pokemon", () => {
-//   const mockPokemon1 = {
-//     ...pokemon1,
-//     toJSON: myMockFn(() => pokemon1),
-//   };
+  describe("POST /new", () => {
+    it("should create and return the new pokemons", async () => {
+      const newPokemonRequest = {
+        ...pokemon1,
+        id: null,
+      };
 
-//   // https://medium.com/@kvr2277/sequelize-mocking-with-jest-and-node-933c1f439579
-//   // https://github.com/facebook/jest/issues/10025
-//   beforeAll(async () => {
-//     mockPokemonModel({
-//       findAll: () => [pokemon1],
-//       create: async (ignore) => mockPokemon1,
-//     });
-//   });
+      const response = await request(app)
+        .post("/pokemon/new")
+        .send(newPokemonRequest)
+        .expect(200);
 
-//   describe("GET /", () => {
-//     it("should return 200 with done message", async () => {
-//       const response = await request(app).get("/");
-
-//       expect(response.status).toEqual(200);
-//       expect(response.body.message).toEqual("done");
-//     });
-//   });
-
-//   // describe("GET /all", () => {
-//   //   it("should return all pokemons", async () => {
-//   //     const response = await request(app).get("/all").expect(200);
-
-//   //     const { body } = response;
-//   //     expect(body.length).toEqual(1);
-//   //     expect(body[0]).toMatchObject(pokemon1);
-//   //   });
-//   // });
-
-//   describe("POST /new", () => {
-//     it("should create and return the new pokemons", async () => {
-//       const requestCreatePokemon1 = JSON.stringify({
-//         ...pokemon1,
-//         id: null,
-//       });
-//       const response = await request(app)
-//         .post("/new")
-//         .send(requestCreatePokemon1);
-
-//       expect(response.status).toEqual(200);
-
-//       const { body } = response;
-//       expect(body.id).toEqual(1);
-//       expect(body).toMatchObject(pokemon1);
-//     });
-//   });
-// });
+      const { body } = response;
+      expect(body.id).toEqual(1);
+      expect(body).toMatchObject(pokemon1);
+    });
+  });
+});
