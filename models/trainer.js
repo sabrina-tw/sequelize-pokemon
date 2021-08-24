@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcryptjs");
+
 module.exports = (sequelize, DataTypes) => {
   class Trainer extends Model {
     /**
@@ -13,12 +15,33 @@ module.exports = (sequelize, DataTypes) => {
   }
   Trainer.init(
     {
-      username: DataTypes.STRING,
-      password: DataTypes.STRING,
+      username: {
+        unique: true,
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       modelName: "Trainer",
+      hooks: {
+        beforeCreate: async (trainer) => {
+          if (trainer.password) {
+            const salt = await bcrypt.genSaltSync(10);
+            trainer.password = bcrypt.hashSync(trainer.password, salt);
+          }
+        },
+        beforeUpdate: async (trainer) => {
+          if (trainer.password) {
+            const salt = await bcrypt.genSaltSync(10);
+            trainer.password = bcrypt.hashSync(trainer.password, salt);
+          }
+        },
+      },
     }
   );
   return Trainer;
