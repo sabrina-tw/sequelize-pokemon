@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db:create": "npx sequelize-cli db:create",
+    "db:createTestDB": "NODE_ENV=test npx sequelize-cli db:create",
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:help": "sequelize-cli",
     "start": "node index.js",
     "start:dev": "nodemon index.js",
     "test": "jest",
