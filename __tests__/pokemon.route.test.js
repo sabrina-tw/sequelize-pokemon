@@ -12,7 +12,7 @@ const pokemon1 = {
   category: "Mouse Pokemon",
 };
 
-describe.only("/pokemon", () => {
+describe("/pokemon", () => {
   beforeEach(async () => {
     await db.SimplePokemon.sync({ force: true });
   });
