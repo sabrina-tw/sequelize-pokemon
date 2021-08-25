@@ -8,7 +8,7 @@ describe("Trainers", () => {
   });
 
   beforeEach(async () => {
-    await db.Trainer.truncate();
+    await db.Trainer.truncate({ cascade: true });
   });
 
   afterAll(async () => {

@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Pokemon.belongsTo(models.Trainer, {
         foreignKey: "trainerId",
+        allowNull: true,
       });
     }
   }
