@@ -22,6 +22,7 @@ router.get("/", async (req, res, next) => {
       attributes: {
         exclude: ["password"],
       },
+      raw: true,
     });
 
     res.json(trainers);
@@ -52,6 +53,7 @@ router.get("/:id/pokemons", async (req, res, next) => {
     const trainerId = req.params.id;
     const pokemons = await db.Pokemon.findAll({
       where: { trainerId },
+      raw: true,
     });
 
     res.json(pokemons);
