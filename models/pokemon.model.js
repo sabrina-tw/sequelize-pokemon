@@ -10,7 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Pokemon.hasOne(models.Trainer, { foreignKey: "id" });
+      Pokemon.belongsTo(models.Trainer, {
+        foreignKey: "trainerId",
+      });
     }
   }
   Pokemon.init(
