@@ -7,7 +7,9 @@ const db = require("./models/index");
 const pokemonRouter = require("./routes/pokemon.route.js");
 const trainersRouter = require("./routes/trainers.route.js");
 
-db.sequelize.sync();
+if (process.env.NODE_ENV !== "test") {
+  db.sequelize.sync();
+}
 
 const app = express();
 app.use(express.json());
