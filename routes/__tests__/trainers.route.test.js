@@ -1,10 +1,14 @@
 const request = require("supertest");
-const app = require("../app");
-const db = require("../models/index");
+const app = require("../../app");
+const db = require("../../models/index");
 
 describe("Trainers", () => {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
+  });
+
+  beforeEach(async () => {
+    await db.Trainer.truncate();
   });
 
   afterAll(async () => {
