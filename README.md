@@ -1,11 +1,13 @@
 # sequelize-pokemon
 
+Heroku: https://sequelize-pokemon.herokuapp.com/
+
 TODO:
 
 - [x] Trainer model, route, migration file
 - [x] implement JWT with trainers /login and /logout
-- [ ] implement associations (Trainer hasMany Pokemon/SimplePokemon)
-- [ ] deploy to Heroku
+- [x] implement associations (Trainer hasMany Pokemon)
+- [ ] deploy to Heroku (WIP, pending connection to Heroku Postgres)
 - [ ] run migrations on Heroku
 - [ ] (bonus) testing
 - [ ] (bonus) testing for jwt
