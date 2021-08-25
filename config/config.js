@@ -9,7 +9,7 @@ module.exports = {
   test: {
     username: "postgres",
     password: null,
-    database: "database_test",
+    database: "sequelize_pokemon_test",
     host: "127.0.0.1",
     dialect: "postgres",
   },
