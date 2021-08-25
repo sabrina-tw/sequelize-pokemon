@@ -18,7 +18,7 @@ app.get("/", async (req, res) => {
   res.status(200).json({ test: "done" });
 });
 
-app.use("/pokemon", pokemonRouter);
+app.use("/pokemons", pokemonRouter);
 app.use("/trainers", trainersRouter);
 
 app.use((err, req, res, next) => {
