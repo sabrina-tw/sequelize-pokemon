@@ -5,7 +5,7 @@ const express = require("express");
 const db = require("./models/index");
 
 const pokemonRouter = require("./routes/pokemon.route.js");
-const trainersRouter = require("./routes/trainers.js");
+const trainersRouter = require("./routes/trainers.route.js");
 
 db.sequelize.sync();
 
