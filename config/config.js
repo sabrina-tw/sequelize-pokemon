@@ -5,6 +5,7 @@ module.exports = {
     database: "sequelize_pokemon",
     host: "127.0.0.1",
     dialect: "postgres",
+    // logging: (...msg) => console.log(msg), // Displays all log function call parameters
   },
   test: {
     username: "postgres",
@@ -12,6 +13,7 @@ module.exports = {
     database: "sequelize_pokemon_test",
     host: "127.0.0.1",
     dialect: "postgres",
+    // logging: false,                        // Disables logging
   },
   production: {
     use_env_variable: process.env.DATABASE_URL,
@@ -28,14 +30,12 @@ module.exports = {
       }
     },
     // logging: console.log,                  // Default, displays the first parameter of the log function call
-    // logging: (...msg) => console.log(msg), // Displays all log function call parameters
-    // logging: false,                        // Disables logging
-    pool: {
-      max: 10, // default: 5
-      min: 0, // default: 0
-      idle: 10000, // default: 10000ms
-      acquire: 30000, // default: 60000ms
-      evict: 1000 // default: 1000ms
-    }
+    // pool: {
+    //   max: 10, // default: 5
+    //   min: 0, // default: 0
+    //   idle: 10000, // default: 10000ms
+    //   acquire: 30000, // default: 60000ms
+    //   evict: 1000 // default: 1000ms
+    // }
   },
 };
