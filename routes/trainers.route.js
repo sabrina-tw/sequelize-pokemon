@@ -1,5 +1,5 @@
 const express = require("express");
-const { protectRoute } = require("../middleware/protectRoute");
+const { protectRoute } = require("../middleware/auth");
 const db = require("../models/index");
 const bcrypt = require("bcryptjs");
 const createJWTToken = require("../config/jwt");
@@ -16,16 +16,47 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/:username", protectRoute, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-    const username = req.params.username;
-    const trainer = await db.Trainer.findOne({
-      where: { username: { [db.Sequelize.Op.iLike]: "%" + username + "%" } },
+    const trainers = await db.Trainer.findAll({
+      attributes: {
+        exclude: ["password"],
+      },
     });
-    res.send(trainer);
-  } catch (err) {
-    console.error(err);
-    next(err);
+
+    res.json(trainers);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const trainerId = req.params.id;
+    const trainer = await db.Trainer.findByPk(trainerId, {
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+
+    if (trainer === null) res.sendStatus(404);
+
+    res.json(trainer);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/:id/pokemons", async (req, res, next) => {
+  try {
+    const trainerId = req.params.id;
+    const pokemons = await db.Pokemon.findAll({
+      where: { trainerId },
+    });
+
+    res.json(pokemons);
+  } catch (error) {
+    next(error);
   }
 });
 
