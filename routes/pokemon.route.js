@@ -10,6 +10,15 @@ router.post("/", async (req, res, next) => {
 
     const newPokemon = await db.Pokemon.create(pokemon);
     res.status(201).json(newPokemon);
+    // const transaction = await db.sequelize.transaction();
+    // try {
+    //   const newPokemon = await db.Pokemon.create(pokemon, { transaction });
+    //   await transaction.commit();
+    //   res.status(201).json(newPokemon);
+    // } catch (error) {
+    //   await transaction.rollback();
+    //   next(error);
+    // }
   } catch (error) {
     next(error);
   }
