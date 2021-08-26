@@ -65,6 +65,8 @@ router.get("/:id/pokemons", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
+    // for enhancement: make case-insensitive?
+    // this is wrong -> where: { username: { [db.Sequelize.Op.iLike]: "%" + username + "%" } }
     const trainer = await db.Trainer.findOne({
       where: { username: { [db.Sequelize.Op.iLike]: "%" + username + "%" } },
     });

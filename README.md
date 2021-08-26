@@ -115,7 +115,7 @@ router.post("/login", async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const trainer = await db.Trainer.findOne({
-      where: { username: { [db.Sequelize.Op.iLike]: "%" + username + "%" } },
+      where: { username },
     });
 
     if (!trainer) {
