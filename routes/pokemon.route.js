@@ -66,6 +66,20 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+router.put("/:id", async (req, res, next) => {
+  try {
+    const pokemonId = req.params.id;
+    const pokemonToUpdate = await db.Pokemon.findByPk(pokemonId);
+
+    if (pokemonToUpdate === null) return res.sendStatus(404);
+    await pokemonToUpdate.update(req.body);
+
+    res.json({ message: `Updated ${pokemonToUpdate.name} successfully!` });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/:id/catch", auth, async (req, res, next) => {
   try {
     const pokemonId = req.params.id;
