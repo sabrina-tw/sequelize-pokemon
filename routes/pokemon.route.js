@@ -47,6 +47,25 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const pokemonId = req.params.id;
+    const pokemonToDelete = await db.Pokemon.findByPk(pokemonId);
+
+    if (pokemonToDelete === null) return res.sendStatus(404);
+
+    await db.Pokemon.destroy({
+      where: {
+        id: pokemonId,
+      },
+    });
+
+    res.json(pokemonToDelete);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/:id/catch", auth, async (req, res, next) => {
   try {
     const pokemonId = req.params.id;
