@@ -5,7 +5,7 @@ Heroku: https://sequelize-pokemon.herokuapp.com/
 - [x] Trainer model, route, migration file
 - [x] implement JWT with trainers /login and /logout
 - [x] implement associations (Trainer hasMany Pokemon)
-- [ ] deploy to Heroku (WIP, pending connection to Heroku Postgres)
+- [x] deploy to Heroku
 - [ ] run migrations on Heroku
 - [ ] (bonus) testing
 - [ ] (bonus) testing for jwt
@@ -37,6 +37,7 @@ If connection to the database fails for whatever reason, check that these are in
 
 - https://github.com/sabrina-tw/sequelize-pokemon/blob/242187a27735a7b7805ad8f005e2ebc2819349b9/models/index.js#L13
 - add dialectOptions: https://github.com/sabrina-tw/sequelize-pokemon/blob/main/config/config.js#L26-L31 (see: https://stackoverflow.com/questions/61350186/how-to-solve-the-database-connection-error-sequelizeconnectionerror)
+- https://github.com/sabrina-tw/sequelize-pokemon/blob/main/config/config.js#L19 (DATABASE_URL is used for Heroku Postgres)
 
 ### Enable login/logout with JWT and cookies
 
